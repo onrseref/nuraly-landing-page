@@ -1,6 +1,8 @@
 (function () {
-  var APP_STORE_URL =
-    "https://apps.apple.com/tr/app/muslim-prayer-lock-nuraly/id6761827025";
+  var APP_ID = "6761827025";
+  var APP_STORE_WEB =
+    "https://apps.apple.com/tr/app/muslim-prayer-lock-nuraly/id" + APP_ID;
+  var APP_STORE_ITMS = "itms-apps://apps.apple.com/app/id" + APP_ID;
   var PAGE_URL = window.location.href.split("#")[0];
 
   var IN_APP_PATTERNS = [
@@ -43,6 +45,13 @@
     return false;
   }
 
+  function getAppStoreUrl() {
+    if (isIOS()) {
+      return APP_STORE_ITMS;
+    }
+    return APP_STORE_WEB;
+  }
+
   function tryOpenExternal(url) {
     if (isIOS()) {
       window.location.href = "x-safari-" + url;
@@ -64,6 +73,24 @@
     }
 
     window.open(url, "_blank", "noopener,noreferrer");
+  }
+
+  function openAppStore() {
+    window.location.href = getAppStoreUrl();
+    window.setTimeout(function () {
+      if (!document.hidden) {
+        window.location.href = APP_STORE_WEB;
+      }
+    }, 1500);
+  }
+
+  function updateAppStoreLinks() {
+    var links = document.querySelectorAll("[data-app-store-link], .app-store-badge, .btn--small[href*='apps.apple.com']");
+    var targetUrl = isInAppBrowser() && isIOS() ? APP_STORE_ITMS : APP_STORE_WEB;
+
+    links.forEach(function (link) {
+      link.href = targetUrl;
+    });
   }
 
   function copyLink(button) {
@@ -128,6 +155,8 @@
   }
 
   function init() {
+    updateAppStoreLinks();
+
     if (!isInAppBrowser()) {
       return;
     }
@@ -149,7 +178,7 @@
     if (openAppStoreButton) {
       openAppStoreButton.addEventListener("click", function (event) {
         event.preventDefault();
-        tryOpenExternal(APP_STORE_URL);
+        openAppStore();
       });
     }
 
@@ -165,12 +194,9 @@
       });
     }
 
-    window.setTimeout(function () {
-      var overlay = document.getElementById("in-app-overlay");
-      if (!document.hidden && overlay && overlay.hidden === false) {
-        tryOpenExternal(PAGE_URL);
-      }
-    }, 600);
+    if (isIOS()) {
+      window.setTimeout(openAppStore, 800);
+    }
   }
 
   if (document.readyState === "loading") {
