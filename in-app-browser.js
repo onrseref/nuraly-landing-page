@@ -1,8 +1,4 @@
 (function () {
-  var APP_ID = "6761827025";
-  var APP_STORE_WEB =
-    "https://apps.apple.com/tr/app/muslim-prayer-lock-nuraly/id" + APP_ID;
-  var APP_STORE_ITMS = "itms-apps://apps.apple.com/app/id" + APP_ID;
   var PAGE_URL = window.location.href.split("#")[0];
 
   var IN_APP_PATTERNS = [
@@ -24,10 +20,6 @@
     return /iPhone|iPad|iPod/i.test(navigator.userAgent);
   }
 
-  function isAndroid() {
-    return /Android/i.test(navigator.userAgent);
-  }
-
   function isInAppBrowser() {
     var ua = navigator.userAgent || "";
     var referrer = document.referrer || "";
@@ -38,18 +30,7 @@
       return true;
     }
 
-    if (/tiktok|instagram|facebook|fb\.com|twitter|t\.co/i.test(referrer)) {
-      return true;
-    }
-
-    return false;
-  }
-
-  function getAppStoreUrl() {
-    if (isIOS()) {
-      return APP_STORE_ITMS;
-    }
-    return APP_STORE_WEB;
+    return /tiktok|instagram|facebook|fb\.com|twitter|t\.co/i.test(referrer);
   }
 
   function tryOpenExternal(url) {
@@ -61,7 +42,7 @@
       return;
     }
 
-    if (isAndroid()) {
+    if (/Android/i.test(navigator.userAgent)) {
       var path = url.replace(/^https?:\/\//, "");
       window.location.href =
         "intent://" +
@@ -84,13 +65,26 @@
     }, 1500);
   }
 
-  function updateAppStoreLinks() {
-    var links = document.querySelectorAll("[data-app-store-link], .app-store-badge, .btn--small[href*='apps.apple.com']");
-    var targetUrl = isInAppBrowser() && isIOS() ? APP_STORE_ITMS : APP_STORE_WEB;
+  function showPopup() {
+    var popup = document.getElementById("browser-popup");
+    if (!popup) {
+      return;
+    }
 
-    links.forEach(function (link) {
-      link.href = targetUrl;
-    });
+    popup.hidden = false;
+    popup.classList.add("is-visible");
+    document.body.classList.add("popup-open");
+  }
+
+  function hidePopup() {
+    var popup = document.getElementById("browser-popup");
+    if (!popup) {
+      return;
+    }
+
+    popup.classList.remove("is-visible");
+    popup.hidden = true;
+    document.body.classList.remove("popup-open");
   }
 
   function copyLink(button) {
@@ -132,53 +126,28 @@
     document.body.removeChild(input);
   }
 
-  function showOverlay() {
-    var overlay = document.getElementById("in-app-overlay");
-    if (!overlay) {
-      return;
-    }
-
-    overlay.hidden = false;
-    overlay.classList.add("is-visible");
-    document.body.classList.add("in-app-active");
-  }
-
-  function hideOverlay() {
-    var overlay = document.getElementById("in-app-overlay");
-    if (!overlay) {
-      return;
-    }
-
-    overlay.classList.remove("is-visible");
-    overlay.hidden = true;
-    document.body.classList.remove("in-app-active");
-  }
-
-  function init() {
-    updateAppStoreLinks();
-
+  function handleAppStoreClick(event) {
     if (!isInAppBrowser()) {
       return;
     }
 
-    document.body.classList.add("in-app-detected");
-    showOverlay();
+    event.preventDefault();
+    showPopup();
+  }
 
-    var openExternalButton = document.getElementById("open-external-browser");
-    var openAppStoreButton = document.getElementById("open-app-store-direct");
-    var copyLinkButton = document.getElementById("copy-page-link");
-    var continueButton = document.getElementById("continue-in-app");
+  function init() {
+    var links = document.querySelectorAll("[data-app-store-link], .app-store-badge");
+    var openInBrowserButton = document.getElementById("open-in-browser");
+    var copyLinkButton = document.getElementById("copy-link");
+    var closeTargets = document.querySelectorAll("[data-close-popup]");
 
-    if (openExternalButton) {
-      openExternalButton.addEventListener("click", function () {
+    links.forEach(function (link) {
+      link.addEventListener("click", handleAppStoreClick);
+    });
+
+    if (openInBrowserButton) {
+      openInBrowserButton.addEventListener("click", function () {
         tryOpenExternal(PAGE_URL);
-      });
-    }
-
-    if (openAppStoreButton) {
-      openAppStoreButton.addEventListener("click", function (event) {
-        event.preventDefault();
-        openAppStore();
       });
     }
 
@@ -188,15 +157,9 @@
       });
     }
 
-    if (continueButton) {
-      continueButton.addEventListener("click", function () {
-        hideOverlay();
-      });
-    }
-
-    if (isIOS()) {
-      window.setTimeout(openAppStore, 800);
-    }
+    closeTargets.forEach(function (target) {
+      target.addEventListener("click", hidePopup);
+    });
   }
 
   if (document.readyState === "loading") {
