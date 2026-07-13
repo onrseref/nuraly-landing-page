@@ -16,6 +16,40 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="in-app-overlay" class="in-app-overlay" hidden>
+    <div class="in-app-overlay__card">
+      <p class="in-app-overlay__eyebrow">TikTok tarayıcısı algılandı</p>
+      <h2 class="in-app-overlay__title">En iyi deneyim için Safari'de aç</h2>
+      <p class="in-app-overlay__text">
+        TikTok içindeki tarayıcı App Store yönlendirmelerini engelleyebilir.
+        Sayfayı Safari veya Chrome'da açarak Nuraly'yi sorunsuz indirebilirsin.
+      </p>
+
+      <div class="in-app-overlay__actions">
+        <button id="open-external-browser" class="btn btn--overlay" type="button">
+          Safari'de Aç
+        </button>
+        <button id="open-app-store-direct" class="btn btn--overlay-secondary" type="button">
+          Doğrudan App Store'a Git
+        </button>
+      </div>
+
+      <ol class="in-app-overlay__steps">
+        <li>Sağ üstteki <strong>⋯</strong> menüsüne dokun</li>
+        <li><strong>Tarayıcıda Aç</strong> veya <strong>Safari'de Aç</strong>'ı seç</li>
+      </ol>
+
+      <div class="in-app-overlay__footer">
+        <button id="copy-page-link" class="in-app-overlay__link-btn" type="button">
+          Linki kopyala
+        </button>
+        <button id="continue-in-app" class="in-app-overlay__link-btn" type="button">
+          Yine de devam et
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div class="bg-glow bg-glow--top"></div>
   <div class="bg-glow bg-glow--bottom"></div>
 
@@ -136,5 +170,6 @@
       <a href="https://apps.apple.com/tr/app/muslim-prayer-lock-nuraly/id6761827025" target="_blank" rel="noopener noreferrer">App Store</a>
     </div>
   </footer>
+  <script src="in-app-browser.js"></script>
 </body>
 </html>
