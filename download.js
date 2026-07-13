@@ -1,45 +1,6 @@
 (function () {
-  var APP_ID = "6761827025";
-  var APP_STORE_WEB =
-    "https://apps.apple.com/tr/app/muslim-prayer-lock-nuraly/id" + APP_ID;
-  var APP_STORE_ITMS = "itms-apps://apps.apple.com/app/id" + APP_ID;
-  var PAGE_URL = window.location.origin + window.location.pathname;
-
-  var IN_APP_PATTERNS = [
-    /BytedanceWebview/i,
-    /musical_ly/i,
-    /TikTok/i,
-    /trill_/i,
-    /Instagram/i,
-    /FBAN|FBAV|FB_IAB/i,
-    /Twitter/i,
-    /LinkedInApp/i,
-    /Snapchat/i,
-    /Line\//i,
-    /MicroMessenger/i,
-    /Pinterest/i,
-  ];
-
-  function isIOS() {
-    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
-  }
-
-  function isInAppBrowser() {
-    var ua = navigator.userAgent || "";
-    var referrer = document.referrer || "";
-
-    if (IN_APP_PATTERNS.some(function (pattern) {
-      return pattern.test(ua);
-    })) {
-      return true;
-    }
-
-    return /tiktok|instagram|facebook|fb\.com|twitter|t\.co/i.test(referrer);
-  }
-
-  function openAppStore() {
-    window.location.href = isIOS() ? APP_STORE_ITMS : APP_STORE_WEB;
-  }
+  var APP_STORE_URL =
+    "https://apps.apple.com/tr/app/muslim-prayer-lock-nuraly/id6761827025";
 
   function copyToClipboard(text, onSuccess) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -71,64 +32,34 @@
     document.body.removeChild(input);
   }
 
-  function showCopyStatus() {
+  function showCopiedState(button) {
     var status = document.getElementById("copy-status");
+    var originalText = button.textContent;
+
+    button.textContent = "Kopyalandı ✓";
+    button.classList.add("is-copied");
+
     if (status) {
       status.hidden = false;
     }
-  }
 
-  function showPopup() {
-    var popup = document.getElementById("browser-popup");
-    if (!popup) {
-      return;
-    }
-
-    popup.hidden = false;
-    popup.classList.add("is-visible");
-    document.body.classList.add("popup-open");
-  }
-
-  function hidePopup() {
-    var popup = document.getElementById("browser-popup");
-    if (!popup) {
-      return;
-    }
-
-    popup.classList.remove("is-visible");
-    popup.hidden = true;
-    document.body.classList.remove("popup-open");
-  }
-
-  function handleDownloadClick() {
-    if (isInAppBrowser()) {
-      showPopup();
-      return;
-    }
-
-    openAppStore();
+    window.setTimeout(function () {
+      button.textContent = originalText;
+      button.classList.remove("is-copied");
+    }, 2500);
   }
 
   function init() {
-    var downloadButton = document.getElementById("download-button");
-    var copyLinkButton = document.getElementById("copy-link");
-    var closeTargets = document.querySelectorAll("[data-close-popup]");
+    var copyButton = document.getElementById("copy-button");
 
-    if (downloadButton) {
-      downloadButton.addEventListener("click", handleDownloadClick);
+    if (!copyButton) {
+      return;
     }
 
-    if (copyLinkButton) {
-      copyLinkButton.addEventListener("click", function () {
-        copyToClipboard(PAGE_URL, function () {
-          showCopyStatus();
-          copyLinkButton.textContent = "Link kopyalandı ✓";
-        });
+    copyButton.addEventListener("click", function () {
+      copyToClipboard(APP_STORE_URL, function () {
+        showCopiedState(copyButton);
       });
-    }
-
-    closeTargets.forEach(function (target) {
-      target.addEventListener("click", hidePopup);
     });
   }
 

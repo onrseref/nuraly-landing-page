@@ -552,8 +552,55 @@ body.in-app-active {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.75rem;
-  width: min(100%, 320px);
+  gap: 1.25rem;
+  width: min(100%, 360px);
+}
+
+.download-page__guide {
+  width: 100%;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.download-page__guide-title {
+  margin: 0 0 0.65rem;
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.download-page__steps {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.download-page__steps li + li {
+  margin-top: 0.45rem;
+}
+
+.download-page__steps strong {
+  color: var(--text);
+}
+
+.download-page__status {
+  margin: 0;
+  color: var(--green-light);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.download-page__button.is-copied {
+  background: #1f6b4f;
+  color: #fff;
 }
 
 .download-page__app-icon {
