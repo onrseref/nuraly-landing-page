@@ -639,9 +639,17 @@ body.in-app-active {
 .browser-popup__handle {
   width: 42px;
   height: 5px;
-  margin: 0 auto 1rem;
+  margin: 0 auto 0.75rem;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.14);
+}
+
+.browser-popup__arrow {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1;
+  text-align: right;
+  color: #007aff;
 }
 
 .browser-popup__title {
@@ -652,15 +660,40 @@ body.in-app-active {
 }
 
 .browser-popup__text {
-  margin: 0 0 1.1rem;
+  margin: 0 0 1rem;
   color: rgba(17, 17, 17, 0.72);
   font-size: 0.95rem;
   text-align: center;
   line-height: 1.5;
 }
 
+.browser-popup__guide {
+  margin-bottom: 0.85rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: 12px;
+  background: rgba(0, 122, 255, 0.08);
+  border: 1px solid rgba(0, 122, 255, 0.14);
+}
+
+.browser-popup__guide-title {
+  margin: 0 0 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #007aff;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.browser-popup__copy-status {
+  margin: 0 0 0.45rem;
+  color: #1f6b4f;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
 .browser-popup__primary {
   width: 100%;
+  margin-top: 0.25rem;
   padding: 0.95rem 1rem;
   border: 0;
   border-radius: 14px;
@@ -673,10 +706,11 @@ body.in-app-active {
 }
 
 .browser-popup__steps {
-  margin: 1rem 0 0.85rem;
+  margin: 0;
   padding-left: 1.2rem;
-  color: rgba(17, 17, 17, 0.72);
+  color: rgba(17, 17, 17, 0.82);
   font-size: 0.9rem;
+  line-height: 1.45;
 }
 
 .browser-popup__steps li + li {
@@ -686,6 +720,7 @@ body.in-app-active {
 .browser-popup__secondary {
   display: block;
   width: 100%;
+  margin-top: 0.5rem;
   padding: 0.75rem;
   border: 0;
   background: none;

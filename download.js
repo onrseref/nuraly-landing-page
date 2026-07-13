@@ -3,7 +3,7 @@
   var APP_STORE_WEB =
     "https://apps.apple.com/tr/app/muslim-prayer-lock-nuraly/id" + APP_ID;
   var APP_STORE_ITMS = "itms-apps://apps.apple.com/app/id" + APP_ID;
-  var PAGE_URL = window.location.href.split("#")[0];
+  var PAGE_URL = window.location.origin + window.location.pathname;
 
   var IN_APP_PATTERNS = [
     /BytedanceWebview/i,
@@ -42,84 +42,23 @@
   }
 
   function openAppStore() {
-    var target = isIOS() ? APP_STORE_ITMS : APP_STORE_WEB;
-    window.location.href = target;
-
-    window.setTimeout(function () {
-      if (!document.hidden) {
-        window.location.href = APP_STORE_WEB;
-      }
-    }, 1500);
+    window.location.href = isIOS() ? APP_STORE_ITMS : APP_STORE_WEB;
   }
 
-  function tryOpenExternal(url) {
-    if (isIOS()) {
-      window.location.href = "x-safari-" + url;
-      window.setTimeout(function () {
-        window.location.href = url;
-      }, 350);
-      return;
-    }
-
-    if (isAndroid()) {
-      var path = url.replace(/^https?:\/\//, "");
-      window.location.href =
-        "intent://" +
-        path +
-        "#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=" +
-        encodeURIComponent(url) +
-        ";end";
-      return;
-    }
-
-    window.open(url, "_blank", "noopener,noreferrer");
-  }
-
-  function showPopup() {
-    var popup = document.getElementById("browser-popup");
-    if (!popup) {
-      return;
-    }
-
-    popup.hidden = false;
-    popup.classList.add("is-visible");
-    document.body.classList.add("popup-open");
-  }
-
-  function hidePopup() {
-    var popup = document.getElementById("browser-popup");
-    if (!popup) {
-      return;
-    }
-
-    popup.classList.remove("is-visible");
-    popup.hidden = true;
-    document.body.classList.remove("popup-open");
-  }
-
-  function copyLink(button) {
-    var originalText = button.textContent;
-
-    function onSuccess() {
-      button.textContent = "Link kopyalandı ✓";
-      window.setTimeout(function () {
-        button.textContent = originalText;
-      }, 2000);
-    }
-
+  function copyToClipboard(text, onSuccess) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(PAGE_URL).then(onSuccess).catch(function () {
-        fallbackCopy(onSuccess);
+      navigator.clipboard.writeText(text).then(onSuccess).catch(function () {
+        fallbackCopy(text, onSuccess);
       });
       return;
     }
 
-    fallbackCopy(onSuccess);
+    fallbackCopy(text, onSuccess);
   }
 
-  function fallbackCopy(onSuccess) {
+  function fallbackCopy(text, onSuccess) {
     var input = document.createElement("textarea");
-    input.value = PAGE_URL;
+    input.value = text;
     input.setAttribute("readonly", "");
     input.style.position = "fixed";
     input.style.opacity = "0";
@@ -136,6 +75,39 @@
     document.body.removeChild(input);
   }
 
+  function showCopyStatus() {
+    var status = document.getElementById("copy-status");
+    if (!status) {
+      return;
+    }
+
+    status.hidden = false;
+  }
+
+  function showPopup() {
+    var popup = document.getElementById("browser-popup");
+    if (!popup) {
+      return;
+    }
+
+    popup.hidden = false;
+    popup.classList.add("is-visible");
+    document.body.classList.add("popup-open");
+
+    copyToClipboard(PAGE_URL, showCopyStatus);
+  }
+
+  function hidePopup() {
+    var popup = document.getElementById("browser-popup");
+    if (!popup) {
+      return;
+    }
+
+    popup.classList.remove("is-visible");
+    popup.hidden = true;
+    document.body.classList.remove("popup-open");
+  }
+
   function handleDownloadClick() {
     if (isInAppBrowser()) {
       showPopup();
@@ -147,23 +119,33 @@
 
   function init() {
     var downloadButton = document.getElementById("download-button");
-    var openInBrowserButton = document.getElementById("open-in-browser");
     var copyLinkButton = document.getElementById("copy-link");
+    var shareLinkButton = document.getElementById("share-link");
     var closeTargets = document.querySelectorAll("[data-close-popup]");
 
     if (downloadButton) {
       downloadButton.addEventListener("click", handleDownloadClick);
     }
 
-    if (openInBrowserButton) {
-      openInBrowserButton.addEventListener("click", function () {
-        tryOpenExternal(PAGE_URL);
+    if (copyLinkButton) {
+      copyLinkButton.addEventListener("click", function () {
+        copyToClipboard(PAGE_URL, function () {
+          showCopyStatus();
+          copyLinkButton.textContent = "Link kopyalandı ✓";
+        });
       });
     }
 
-    if (copyLinkButton) {
-      copyLinkButton.addEventListener("click", function () {
-        copyLink(copyLinkButton);
+    if (shareLinkButton && navigator.share) {
+      shareLinkButton.hidden = false;
+      shareLinkButton.addEventListener("click", function () {
+        navigator.share({
+          title: "Nuraly — App Store'da İndir",
+          text: "Nuraly uygulamasını indir",
+          url: PAGE_URL,
+        }).catch(function () {
+          /* user cancelled */
+        });
       });
     }
 

@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body class="download-page">
   <main class="download-page__main">
@@ -37,23 +37,40 @@
     <div class="browser-popup__backdrop" data-close-popup></div>
     <div class="browser-popup__sheet" role="dialog" aria-modal="true" aria-labelledby="browser-popup-title">
       <div class="browser-popup__handle" aria-hidden="true"></div>
-      <h2 id="browser-popup-title" class="browser-popup__title">Tarayıcıda Aç</h2>
+      <p class="browser-popup__arrow" aria-hidden="true">↗</p>
+      <h2 id="browser-popup-title" class="browser-popup__title">Safari'de Aç</h2>
       <p class="browser-popup__text">
-        Nuraly'yi indirmek için sayfayı Safari veya Chrome'da açman gerekiyor.
+        TikTok içinden App Store açılmaz. Aşağıdaki adımlardan birini kullan:
       </p>
-      <button id="open-in-browser" class="browser-popup__primary" type="button">
-        Tarayıcıda Aç
+
+      <div class="browser-popup__guide">
+        <p class="browser-popup__guide-title">Yöntem 1 — En kolay</p>
+        <ol class="browser-popup__steps">
+          <li>Sağ üstteki <strong>⋯</strong> menüsüne dokun</li>
+          <li><strong>Tarayıcıda Aç</strong> veya <strong>Safari'de Aç</strong>'ı seç</li>
+          <li>Açılan sayfada <strong>App Store'da İndir</strong>'e bas</li>
+        </ol>
+      </div>
+
+      <div class="browser-popup__guide">
+        <p class="browser-popup__guide-title">Yöntem 2 — Link kopyala</p>
+        <p id="copy-status" class="browser-popup__copy-status" hidden>Link kopyalandı ✓</p>
+        <ol class="browser-popup__steps">
+          <li>Aşağıdaki butona bas, linki kopyala</li>
+          <li><strong>Safari</strong> uygulamasını aç</li>
+          <li>Adres çubuğuna yapıştır ve git</li>
+        </ol>
+      </div>
+
+      <button id="copy-link" class="browser-popup__primary" type="button">
+        Linki Kopyala
       </button>
-      <ol class="browser-popup__steps">
-        <li>Sağ üstteki <strong>⋯</strong> menüsüne dokun</li>
-        <li><strong>Tarayıcıda Aç</strong> veya <strong>Safari'de Aç</strong>'ı seç</li>
-      </ol>
-      <button id="copy-link" class="browser-popup__secondary" type="button">
-        Linki kopyala
+      <button id="share-link" class="browser-popup__secondary" type="button" hidden>
+        Paylaş
       </button>
     </div>
   </div>
 
-  <script src="download.js?v=3"></script>
+  <script src="download.js?v=4"></script>
 </body>
 </html>
