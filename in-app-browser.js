@@ -56,15 +56,6 @@
     window.open(url, "_blank", "noopener,noreferrer");
   }
 
-  function openAppStore() {
-    window.location.href = getAppStoreUrl();
-    window.setTimeout(function () {
-      if (!document.hidden) {
-        window.location.href = APP_STORE_WEB;
-      }
-    }, 1500);
-  }
-
   function showPopup() {
     var popup = document.getElementById("browser-popup");
     if (!popup) {
