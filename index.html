@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body class="download-page">
   <main class="download-page__main">
@@ -37,46 +37,26 @@
     <div class="browser-popup__backdrop" data-close-popup></div>
     <div class="browser-popup__sheet" role="dialog" aria-modal="true" aria-labelledby="browser-popup-title">
       <div class="browser-popup__handle" aria-hidden="true"></div>
-      <h2 id="browser-popup-title" class="browser-popup__title">Tarayıcıda Aç</h2>
-      <p class="browser-popup__text">Hangi tarayıcıda açmak istiyorsun?</p>
+      <h2 id="browser-popup-title" class="browser-popup__title">Safari veya Chrome'da Aç</h2>
+      <p class="browser-popup__text">
+        TikTok içinden App Store açılmaz. Linki kopyalayıp tarayıcında açman gerekiyor.
+      </p>
 
-      <div class="browser-picker">
-        <button id="open-safari" class="browser-picker__option" type="button">
-          <span class="browser-picker__icon browser-picker__icon--safari" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/>
-              <polygon points="16,8 10.5,15 8,12.5" fill="currentColor"/>
-            </svg>
-          </span>
-          <span class="browser-picker__label">Safari</span>
-        </button>
-        <button id="open-chrome" class="browser-picker__option" type="button">
-          <span class="browser-picker__icon browser-picker__icon--chrome" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="9" fill="#4285F4"/>
-              <path d="M12 3a9 9 0 0 1 7.8 4.5H12V3z" fill="#EA4335"/>
-              <path d="M4.2 7.5A9 9 0 0 0 3 12h9V3.9A9 9 0 0 0 4.2 7.5z" fill="#FBBC05"/>
-              <path d="M4.2 16.5A9 9 0 0 0 12 21v-9H3a9 9 0 0 0 1.2 4.5z" fill="#34A853"/>
-              <circle cx="12" cy="12" r="3.5" fill="#fff"/>
-            </svg>
-          </span>
-          <span class="browser-picker__label">Chrome</span>
-        </button>
-      </div>
+      <ol class="browser-popup__steps">
+        <li>Aşağıdaki butona basarak <strong>linki kopyala</strong></li>
+        <li><strong>Safari</strong> veya <strong>Chrome</strong> uygulamasını aç</li>
+        <li>Adres çubuğuna <strong>yapıştır</strong> ve git</li>
+        <li>Açılan sayfada <strong>App Store'da İndir</strong>'e bas</li>
+      </ol>
 
-      <p id="browser-status" class="browser-popup__status" hidden></p>
+      <p id="copy-status" class="browser-popup__status" hidden>Link kopyalandı ✓</p>
 
-      <details class="browser-popup__fallback">
-        <summary>Açılmazsa manuel yöntem</summary>
-        <ol class="browser-popup__steps">
-          <li>Sağ üstteki <strong>⋯</strong> menüsüne dokun</li>
-          <li><strong>Tarayıcıda Aç</strong> veya <strong>Safari'de Aç</strong>'ı seç</li>
-        </ol>
-        <button id="copy-link" class="browser-popup__copy" type="button">Linki Kopyala</button>
-      </details>
+      <button id="copy-link" class="browser-popup__primary" type="button">
+        Linki Kopyala
+      </button>
     </div>
   </div>
 
-  <script src="download.js?v=5"></script>
+  <script src="download.js?v=6"></script>
 </body>
 </html>
